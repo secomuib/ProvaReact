@@ -10,7 +10,8 @@ class App extends React.Component {
     owner: '',
     contractAddress: '',
     myNewNumber: '',
-    addTenToMyNumber: ''
+    addTenToMyNumber: '',
+    message: ''
   };
 
   async componentDidMount() { 
@@ -32,7 +33,11 @@ class App extends React.Component {
       from: accounts[0]
     });
     
-    this.setState({ message: 'You have submitted your number!'});
+    const myNewNumber = await myContract.methods.myNewNumber().call();
+    this.setState({ 
+      message: 'You have submitted your number!',
+      myNewNumber: myNewNumber
+    });
   };
 
   render()
@@ -60,6 +65,9 @@ class App extends React.Component {
             </div>
             <button>click to confirm</button> 
           </form>
+          <p>
+            Message: {this.state.message}
+          </p>
           <p>
             The stored number is: {this.state.myNewNumber}
           </p>
